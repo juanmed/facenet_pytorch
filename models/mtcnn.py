@@ -359,7 +359,7 @@ class MTCNN(nn.Module):
                 probs.append([None])
                 points.append(None)
             elif self.select_largest:
-                box_order = np.argsort((box[:, 2] - box[:, 0]) * (box[:, 3] - box[:, 1]))[::-1]
+                box_order = np.argsort((box[:, 2] - box[:, 0]) * (box[:, 3] - box[:, 1])) [::-1]
                 box = box[box_order]
                 point = point[box_order]
                 boxes.append(box[:, :4])
@@ -369,9 +369,16 @@ class MTCNN(nn.Module):
                 boxes.append(box[:, :4])
                 probs.append(box[:, 4])
                 points.append(point)
+
+        #return boxes, probs, points
         boxes = np.array(boxes)
         probs = np.array(probs)
         points = np.array(points)
+        #print(boxes.shape,probs.shape)
+        #print(type(boxes),type(probs))
+        #print(boxes[0:5])
+        #print(probs[0:5])
+        #return np.hstack((boxes.reshape(-1,4),probs.reshape(-1,1)))
 
         if not isinstance(img, (list, tuple)) and not (isinstance(img, np.ndarray) and len(img.shape) == 4):
             boxes = boxes[0]
